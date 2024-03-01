@@ -11,12 +11,12 @@ extension CommonDependencies {
 extension CommonDependencies.Schedulers {
     public typealias DispatchQueueScheduler = any Scheduler<DispatchQueue.SchedulerTimeType>
 
-    public static func live<S: Scheduler>(innerScheduler: S) -> () -> any Scheduler<S.SchedulerTimeType> {
-        { innerScheduler }
+    public static func live<S: Scheduler>(innerScheduler: S) -> any Scheduler<S.SchedulerTimeType> {
+        innerScheduler
     }
 
-    public static func liveDispatch(queue: DispatchQueue = .main) -> () -> DispatchQueueScheduler {
-        { queue }
+    public static func liveDispatch(queue: DispatchQueue = .main) -> DispatchQueueScheduler {
+        queue
     }
 }
 
@@ -27,11 +27,11 @@ extension CommonDependencies.Schedulers {
     static func mock<S: Scheduler>(
         ofType: S.Type,
         returning scheduler: @escaping () -> SchedulerMock<S.SchedulerTimeType, S.SchedulerOptions>
-    ) -> () -> SchedulerMock<S.SchedulerTimeType, S.SchedulerOptions> {
-        { scheduler() }
+    ) -> SchedulerMock<S.SchedulerTimeType, S.SchedulerOptions> {
+        scheduler()
     }
-    static func mockDispatch(returning scheduler: @escaping () -> DispatchQueueScheduler = { dispatchQueueMock }) -> () -> DispatchQueueScheduler {
-        { scheduler() }
+    static func mockDispatch(returning scheduler: @escaping () -> DispatchQueueScheduler = { dispatchQueueMock }) -> DispatchQueueScheduler {
+        scheduler()
     }
 }
 

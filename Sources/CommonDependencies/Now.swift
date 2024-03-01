@@ -10,8 +10,8 @@ extension CommonDependencies.Now {
     }
 
     #if DEBUG
-    static var nextMockedDate = { Date(timeIntervalSinceReferenceDate: 0) }
-    static func mock(returning mockedValue: @escaping () -> Date = nextMockedDate) -> () -> Date {
+    static var nextMockedDate = Date(timeIntervalSinceReferenceDate: 0)
+    static func mock(returning mockedValue: @escaping () -> Date = { nextMockedDate }) -> () -> Date {
         { mockedValue() }
     }
     #endif

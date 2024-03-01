@@ -10,8 +10,8 @@ extension CommonDependencies.TimeZones {
     }
 
     #if DEBUG
-    static var nextMockedTimeZone = { TimeZone(secondsFromGMT: 0) ?? TimeZone.current }
-    static func mock(returning mockedValue: @escaping () -> TimeZone = nextMockedTimeZone) -> () -> TimeZone {
+    static var nextMockedTimeZone = TimeZone(secondsFromGMT: 0) ?? TimeZone.current
+    static func mock(returning mockedValue: @escaping () -> TimeZone = { nextMockedTimeZone }) -> () -> TimeZone {
         { mockedValue() }
     }
     #endif

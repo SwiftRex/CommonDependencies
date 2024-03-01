@@ -15,8 +15,8 @@ extension CommonDependencies.Calendars {
         calendar.timeZone = CommonDependencies.TimeZones.mock()()
         calendar.locale = CommonDependencies.Locales.mock()()
         return calendar
-    }
-    static func mock(returning mockedValue: @escaping () -> Calendar = nextMockedCalendar) -> () -> Calendar {
+    }()
+    static func mock(returning mockedValue: @escaping () -> Calendar = { nextMockedCalendar }) -> () -> Calendar {
         { mockedValue() }
     }
     #endif

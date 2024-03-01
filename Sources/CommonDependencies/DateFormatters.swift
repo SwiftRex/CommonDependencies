@@ -5,8 +5,10 @@ extension CommonDependencies {
 }
 
 extension CommonDependencies.DateFormatters {
-    public static func live(value: @escaping () -> DateFormatter = { DateFormatter() }) -> () -> DateFormatter {
-        { value() }
+    public static func live(
+        settings: @escaping (DateFormatter) -> DateFormatter = { $0 }
+    ) -> () -> DateFormatter {
+        { settings(DateFormatter()) }
     }
 
     #if DEBUG
@@ -16,8 +18,8 @@ extension CommonDependencies.DateFormatters {
         dateFormatter.locale = CommonDependencies.Locales.mock()()
         dateFormatter.calendar = CommonDependencies.Calendars.mock()()
         return dateFormatter
-    }
-    static func mock(returning mockedValue: @escaping () -> DateFormatter = nextMockedDateFormatter) -> () -> DateFormatter {
+    }()
+    static func mock(returning mockedValue: @escaping () -> DateFormatter = { nextMockedDateFormatter }) -> () -> DateFormatter {
         { mockedValue() }
     }
     #endif

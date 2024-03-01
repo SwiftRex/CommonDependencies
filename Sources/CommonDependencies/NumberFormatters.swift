@@ -5,8 +5,10 @@ extension CommonDependencies {
 }
 
 extension CommonDependencies.NumberFormatters {
-    public static func live(value: @escaping () -> NumberFormatter = { NumberFormatter() }) -> () -> NumberFormatter {
-        { value() }
+    public static func live(
+        settings: @escaping (NumberFormatter) -> NumberFormatter = { $0 }
+    ) -> () -> NumberFormatter {
+        { settings(NumberFormatter()) }
     }
 
     #if DEBUG
@@ -14,8 +16,8 @@ extension CommonDependencies.NumberFormatters {
         var numberFormatter = NumberFormatter()
         numberFormatter.locale = CommonDependencies.Locales.mock()()
         return numberFormatter
-    }
-    static func mock(returning mockedValue: @escaping () -> NumberFormatter = nextMockedNumberFormatter) -> () -> NumberFormatter {
+    }()
+    static func mock(returning mockedValue: @escaping () -> NumberFormatter = { nextMockedNumberFormatter }) -> () -> NumberFormatter {
         { mockedValue() }
     }
     #endif

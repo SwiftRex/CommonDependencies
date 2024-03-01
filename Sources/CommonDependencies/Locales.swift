@@ -19,8 +19,8 @@ extension CommonDependencies.Locales {
     static let brazil = Locale(identifier: "pt_BR")
     static let korea = Locale(identifier: "ko_KR")
 
-    static var nextMockedLocale = { us }
-    static func mock(returning mockedValue: @escaping () -> Locale = nextMockedLocale) -> () -> Locale {
+    static var nextMockedLocale = us
+    static func mock(returning mockedValue: @escaping () -> Locale = { nextMockedLocale }) -> () -> Locale {
         { mockedValue() }
     }
     #endif

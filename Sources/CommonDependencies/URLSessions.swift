@@ -29,11 +29,11 @@ extension CommonDependencies.URLSessions {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [URLProtocolMock.self]
         return configuration
-    }
+    }()
 
-    static var nextMockedURLSession = { URLSession(configuration: nextMockedURLSessionConfiguration()) }
+    static var nextMockedURLSession = { URLSession(configuration: nextMockedURLSessionConfiguration) }()
 
-    static func mock(returning mockedValue: @escaping () -> URLSession = nextMockedURLSession) -> () -> URLSession {
+    static func mock(returning mockedValue: @escaping () -> URLSession = { nextMockedURLSession }) -> () -> URLSession {
         { mockedValue() }
     }
 }
